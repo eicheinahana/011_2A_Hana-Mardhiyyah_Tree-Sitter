@@ -1,0 +1,30 @@
+== x = 1 ==
+(module (expression_statement (assignment left: (identifier) right: (integer))))
+has_error: False
+
+== fungsi ==
+(module (function_definition name: (identifier) parameters: (parameters (identifier)) body: (block (return_statement (identifier)))))
+has_error: False
+
+== if_else ==
+(module (if_statement condition: (comparison_operator (identifier) (integer)) consequence: (block (expression_statement (assignment left: (identifier) right: (integer)))) alternative: (else_clause body: (block (expression_statement (assignment left: (identifier) right: (integer)))))))
+has_error: False
+
+== kelas ==
+(module (class_definition name: (identifier) body: (block (function_definition name: (identifier) parameters: (parameters (identifier)) body: (block (return_statement (integer)))))))
+has_error: False
+
+== rusak (titik dua dihapus) ==
+(module (ERROR (identifier) (parameters (identifier)) (identifier)))
+has_error: True
+
+== anak langsung function_definition: bernama atau anonim ==
+def anonim
+identifier bernama
+parameters bernama
+: anonim
+block bernama
+
+== children vs named_children (function_definition) ==
+children       : ['def', 'identifier', 'parameters', ':', 'block']
+named_children : ['identifier', 'parameters', 'block']
