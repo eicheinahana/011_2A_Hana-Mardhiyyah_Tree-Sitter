@@ -89,3 +89,32 @@ membuat `venv` baru di `~/venv-plp`.
    `(MISSING ":")` di dalam `function_definition`. Hasil sebenarnya adalah node
    `ERROR` tanpa `function_definition`.
 3. **Bukti:** output `t1.py` pada bagian "kode rusak" (`output_t1.txt`).
+
+
+## Tugas 2 - Penjelajah node
+
+`jelajah.py` menelusuri pohon secara rekursif (preorder) dan hanya mencetak
+node bernama. Tiap baris berisi indentasi sesuai kedalaman, tipe node, posisi
+`[baris:kolom]`, dan nama field jika ada. Nama field diambil dengan
+`node.field_name_for_child(i)`, dengan `i` adalah indeks di `node.children`
+(semua child), bukan di `named_children`, karena field dihitung dari urutan
+semua child termasuk yang anonim.
+
+Hasil pada `kecil.py` (`x = 1`) cocok dengan output di materi:
+
+```
+module [1:0]
+  expression_statement [1:0]
+    assignment [1:0]
+      left: identifier [1:0]
+      right: integer [1:4]
+```
+
+Skrip juga dijalankan pada `uji_nyata.py` (salinan modul `textwrap` dari pustaka
+standar Python, lebih dari 100 baris). Output lengkap ada di
+`tugas1-3/output_t2_nyata.txt`. Kebenaran output diverifikasi dengan mencocokkan hasil pada kecil.py dengan
+output di materi, dan membandingkan hasil pada fungsi_kecil.py dengan output
+Tugas 1 (output_t1.txt) untuk nama node dan label field.
+
+Catatan penggunaan AI: kode ditulis oleh AI (Claude). Verifikasi dilakukan dengan
+mencocokkan output `kecil.py` dengan output di materi.
