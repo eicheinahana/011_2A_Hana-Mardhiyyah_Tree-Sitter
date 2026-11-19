@@ -28,3 +28,8 @@ block bernama
 == children vs named_children (function_definition) ==
 children       : ['def', 'identifier', 'parameters', ':', 'block']
 named_children : ['identifier', 'parameters', 'block']
+
+== anak dari parameters ==
+( anonim
+identifier bernama
+) anonim
