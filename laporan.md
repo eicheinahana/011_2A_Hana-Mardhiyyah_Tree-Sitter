@@ -313,3 +313,118 @@ tidak ada
 1. **Yang diminta:** menulis `queries/highlights.scm` dan langkah konfigurasi.
 2. **Kesalahan atau kekurangan AI yang ditemukan:** tidak ada
 3. **Pembuktian:** isi `hasil_highlight.txt` dan hasil `tree-sitter highlight`.
+
+
+## Tugas 6 - cek.py
+
+`cek.py <folder>` memeriksa semua file `*.py` di sebuah folder dan melaporkan:
+
+1. **Komentar TODO/FIXME**: query `((comment) @c (#match? @c "TODO|FIXME"))`,
+   dilaporkan beserta file dan barisnya.
+2. **Fungsi lebih dari 30 baris**: query `function_definition`, panjangnya
+   dihitung dari `end_point[0] - start_point[0] + 1`. Semua fungsi dihitung,
+   termasuk method di dalam kelas dan fungsi bersarang.
+3. **File dengan syntax error**: `root_node.has_error`, lalu fungsi rekursif
+   mencari node pertama yang `is_error` atau `is_missing` untuk melaporkan
+   baris pertama yang bermasalah.
+
+Folder `venv`, `.git`, dan `node_modules` dilewati. Isi file dibaca sebagai
+byte dan didekode dengan `errors="replace"` agar file dengan encoding aneh
+tidak membuat skrip berhenti.
+
+Hasil pada folder uji buatan sendiri (`uji/`):
+```
+[PANJANG] uji/panjang.py:1: fungsi fungsi_panjang = 37 baris
+[ERROR] uji/rusak.py:1: syntax error (ERROR)
+[TODO]  uji/todo.py:1: # TODO: tambahkan validasi input
+[TODO]  uji/todo.py:3: # FIXME: belum menangani x negatif
+-- selesai: 3 file diperiksa
+
+```
+
+Hasil pada repo nyata "https://github.com/psf/requests", cuplikan:
+```
+[PANJANG] /home/hana/uji-repo/src/requests/__init__.py:60: fungsi check_compatibility = 37 baris
+[TODO]  /home/hana/uji-repo/src/requests/_types.py:60: # TODO: move to collections.abc when Python >= 3.12
+[TODO]  /home/hana/uji-repo/src/requests/_types.py:61: # TODO: move to typing when Python >= 3.13
+[TODO]  /home/hana/uji-repo/src/requests/adapters.py:715: # TODO: Remove this in 3.0.0: see #2811
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:85: fungsi _urllib3_request_context = 35 baris
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:269: fungsi proxy_manager_for = 37 baris
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:307: fungsi cert_verify = 57 baris
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:365: fungsi build_response = 37 baris
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:403: fungsi build_connection_pool_key_attributes = 51 baris
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:455: fungsi get_connection_with_tls_context = 56 baris
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:512: fungsi get_connection = 42 baris
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:565: fungsi request_url = 33 baris
+[PANJANG] /home/hana/uji-repo/src/requests/adapters.py:634: fungsi send = 115 baris
+[PANJANG] /home/hana/uji-repo/src/requests/api.py:24: fungsi request = 48 baris
+[PANJANG] /home/hana/uji-repo/src/requests/auth.py:34: fungsi _basic_auth_str = 42 baris
+[PANJANG] /home/hana/uji-repo/src/requests/auth.py:157: fungsi build_digest_header = 110 baris
+[PANJANG] /home/hana/uji-repo/src/requests/auth.py:273: fungsi handle_401 = 47 baris
+[PANJANG] /home/hana/uji-repo/src/requests/cookies.py:494: fungsi create_cookie = 35 baris
+[PANJANG] /home/hana/uji-repo/src/requests/help.py:67: fungsi info = 57 baris
+[TODO]  /home/hana/uji-repo/src/requests/hooks.py:29: # TODO: response is the only one
+[TODO]  /home/hana/uji-repo/src/requests/models.py:687: # TODO: can be fixed by flipping the conditionals
+[TODO]  /home/hana/uji-repo/src/requests/models.py:1016: # TODO: remove cast after iter_lines rewrite
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:183: fungsi _encode_files = 69 baris
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:323: fungsi __init__ = 33 baris
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:483: fungsi prepare_url = 81 baris
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:576: fungsi prepare_body = 77 baris
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:765: fungsi __init__ = 46 baris
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:914: fungsi iter_content = 64 baris
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:994: fungsi iter_lines = 39 baris
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:1054: fungsi text = 36 baris
+[PANJANG] /home/hana/uji-repo/src/requests/models.py:1091: fungsi json = 34 baris
+[PANJANG] /home/hana/uji-repo/src/requests/sessions.py:154: fungsi should_strip_auth = 31 baris
+[PANJANG] /home/hana/uji-repo/src/requests/sessions.py:186: fungsi resolve_redirects = 122 baris
+[PANJANG] /home/hana/uji-repo/src/requests/sessions.py:334: fungsi rebuild_proxies = 35 baris
+[PANJANG] /home/hana/uji-repo/src/requests/sessions.py:442: fungsi __init__ = 62 baris
+[PANJANG] /home/hana/uji-repo/src/requests/sessions.py:511: fungsi prepare_request = 45 baris
+[PANJANG] /home/hana/uji-repo/src/requests/sessions.py:557: fungsi request = 97 baris
+[PANJANG] /home/hana/uji-repo/src/requests/sessions.py:752: fungsi send = 78 baris
+[PANJANG] /home/hana/uji-repo/src/requests/sessions.py:831: fungsi merge_environment_settings = 38 baris
+[PANJANG] /home/hana/uji-repo/src/requests/utils.py:99: fungsi proxy_bypass_registry = 37 baris
+[PANJANG] /home/hana/uji-repo/src/requests/utils.py:160: fungsi super_len = 69 baris
+[PANJANG] /home/hana/uji-repo/src/requests/utils.py:231: fungsi get_netrc_auth = 50 baris
+[PANJANG] /home/hana/uji-repo/src/requests/utils.py:290: fungsi extract_zipped_paths = 36 baris
+[PANJANG] /home/hana/uji-repo/src/requests/utils.py:440: fungsi parse_dict_header = 32 baris
+[PANJANG] /home/hana/uji-repo/src/requests/utils.py:633: fungsi get_unicode_from_response = 39 baris
+[PANJANG] /home/hana/uji-repo/src/requests/utils.py:810: fungsi should_bypass_proxies = 61 baris
+[PANJANG] /home/hana/uji-repo/src/requests/utils.py:965: fungsi parse_header_links = 35 baris
+[PANJANG] /home/hana/uji-repo/tests/test_lowlevel.py:127: fungsi test_digestauth_401_count_reset_on_redirect = 63 baris
+[PANJANG] /home/hana/uji-repo/tests/test_lowlevel.py:192: fungsi test_digestauth_401_only_sent_once = 44 baris
+[PANJANG] /home/hana/uji-repo/tests/test_lowlevel.py:238: fungsi test_digestauth_only_on_4xx = 35 baris
+[PANJANG] /home/hana/uji-repo/tests/test_lowlevel.py:308: fungsi test_redirect_rfc1808_to_non_ascii_location = 32 baris
+[PANJANG] /home/hana/uji-repo/tests/test_lowlevel.py:364: fungsi test_fragment_update_on_redirect = 41 baris
+[PANJANG] /home/hana/uji-repo/tests/test_requests.py:450: fungsi test_cookielib_cookiejar_on_redirect = 31 baris
+[PANJANG] /home/hana/uji-repo/tests/test_requests.py:683: fungsi test_basicauth_with_netrc = 34 baris
+[PANJANG] /home/hana/uji-repo/tests/test_requests.py:841: fungsi test_POSTBIN_SEEKED_OBJECT_WITH_NO_ITER = 40 baris
+[PANJANG] /home/hana/uji-repo/tests/test_requests.py:1647: fungsi test_transport_adapter_ordering = 37 baris
+[PANJANG] /home/hana/uji-repo/tests/test_requests.py:2286: fungsi test_custom_redirect_mixin = 43 baris
+[PANJANG] /home/hana/uji-repo/tests/test_requests.py:2959: fungsi test_different_connection_pool_for_tls_settings_verify_bundle_expired_cert = 32 baris
+[PANJANG] /home/hana/uji-repo/tests/test_requests.py:2992: fungsi test_different_connection_pool_for_tls_settings_verify_bundle_unexpired_cert = 31 baris
+[PANJANG] /home/hana/uji-repo/tests/test_requests.py:3024: fungsi test_different_connection_pool_for_mtls_settings = 38 baris
+[TODO]  /home/hana/uji-repo/tests/test_testserver.py:97: # TODO: figure out why this sometimes fails when using pytest-xdist.
+[PANJANG] /home/hana/uji-repo/tests/test_utils.py:886: fungsi test_should_bypass_proxies_win_registry = 35 baris
+[PANJANG] /home/hana/uji-repo/tests/testserver/server.py:139: fungsi __init__ = 31 baris
+-- selesai: 37 file diperiksa
+
+```
+
+Pencocokan manual pada 2 file acak:
+
+- `src/requests/hooks.py`: `cek.py` melaporkan 1 komentar TODO di baris 29
+  (`# TODO: response is the only one`). Dicek manual dengan `grep`: (cocok / tidak cocok).
+- `src/requests/api.py`: `cek.py` melaporkan fungsi `request` di baris 24 dengan
+  panjang 48 baris (berakhir di baris 71). Dicek manual dengan `sed`: (cocok / tidak cocok).
+
+### Kendala dan solusi
+tidak ada kendala
+
+### Catatan penggunaan AI
+1. **Yang diminta:** menulis `cek.py`, file uji, dan `README.md`.
+2. **Kesalahan atau kekurangan AI yang ditemukan:** (ISI hanya jika benar-benar
+   terjadi, misalnya jenis error yang dilaporkan berbeda dari perkiraan AI,
+   atau hasil yang tidak cocok dengan pengecekan manual, lengkap dengan buktinya.)
+3. **Pembuktian:** `output_uji.txt`, `output_repo_nyata.txt`, dan pencocokan
+   manual pada 2 file acak.
