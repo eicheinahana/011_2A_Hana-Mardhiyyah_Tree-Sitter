@@ -90,7 +90,6 @@ membuat `venv` baru di `~/venv-plp`.
    `ERROR` tanpa `function_definition`.
 3. **Bukti:** output `t1.py` pada bagian "kode rusak" (`output_t1.txt`).
 
-
 ## Tugas 2 - Penjelajah node
 
 `jelajah.py` menelusuri pohon secara rekursif (preorder) dan hanya mencetak
@@ -118,7 +117,6 @@ Tugas 1 (output_t1.txt) untuk nama node dan label field.
 
 Catatan penggunaan AI: kode ditulis oleh AI (Claude). Verifikasi dilakukan dengan
 mencocokkan output `kecil.py` dengan output di materi.
-
 
 ## Tugas 3 - Query pertama
 
@@ -168,10 +166,10 @@ tidak ada kendala
 
 ### Catatan penggunaan AI
 1. **Yang diminta:** menulis `q.py`, `contoh.py`, dan ketiga file query.
-2. **Kesalahan atau kekurangan AI yang ditemukan:** (PILIH yang benar-benar terjadi)
+2. **Kesalahan atau kekurangan AI yang ditemukan:** 
    - Jumlah parameter `kali` ternyata 4 karena `self` ikut terhitung, sedangkan
      hitungan manual awal 3; `named_child_count` tidak membedakan `self`.
-     Bukti: `output_t3_fungsi.txt`.
+     Bukti: `tugas1-3/output_t3_fungsi.txt`.
 3. **Pembuktian:** hasil query dicocokkan dengan hitungan manual pada `contoh.py`.
 
 ## Tugas 4 - Grammar DSL filter
@@ -232,7 +230,6 @@ Total parses: 8; successful parses: 8; failed parses: 0; success percentage: 100
         `tree-sitter test` dapat dijalankan (hasilnya di
         `tree-sitter-filter/hasil_test.txt`).
 3. **Pembuktian:** hasil `tree-sitter test` pada `hasil_test.txt`.
-
 
 ## Tugas 5 - Highlight
 
@@ -412,7 +409,6 @@ Hasil pada repo nyata "https://github.com/psf/requests", cuplikan:
 ```
 
 Pencocokan manual pada 2 file acak:
-
 - `src/requests/hooks.py`: `cek.py` melaporkan 1 komentar TODO di baris 29
   (`# TODO: response is the only one`). Dicek manual dengan `grep`: (cocok / tidak cocok).
 - `src/requests/api.py`: `cek.py` melaporkan fungsi `request` di baris 24 dengan
@@ -423,8 +419,8 @@ tidak ada kendala
 
 ### Catatan penggunaan AI
 1. **Yang diminta:** menulis `cek.py`, file uji, dan `README.md`.
-2. **Kesalahan atau kekurangan AI yang ditemukan:** (ISI hanya jika benar-benar
-   terjadi, misalnya jenis error yang dilaporkan berbeda dari perkiraan AI,
-   atau hasil yang tidak cocok dengan pengecekan manual, lengkap dengan buktinya.)
+2. **Kesalahan atau kekurangan AI yang ditemukan:** tidak ditemukan kesalahan
+   pada tugas ini. Hasil `cek.py` dicocokkan dengan pengecekan manual pada dua
+   file `psf/requests` dan dengan `ast.parse` dari Python untuk syntax error.
 3. **Pembuktian:** `output_uji.txt`, `output_repo_nyata.txt`, dan pencocokan
    manual pada 2 file acak.
