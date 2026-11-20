@@ -1,17 +1,65 @@
-/**
- * @file Filter grammar for tree-sitter
- * @author hana <hana>
- * @license MIT
- */
-
-/// <reference types="tree-sitter-cli/dsl" />
-// @ts-check
-
 export default grammar({
-  name: "filter",
+  name: 'filter',
+
+  extras: $ => [/\s/],
+
+  word: $ => $.identifier,
 
   rules: {
-    // TODO: add the actual grammar rules
-    source_file: $ => "hello"
-  }
+    query: $ => $._expr,
+
+    _expr: $ => choice(
+      $.comparison,
+      $.in_expression,
+      $.contains_expression,
+      $.and_expression,
+      $.or_expression,
+      $.not_expression,
+      $.parenthesized,
+    ),
+
+    comparison: $ => seq(
+      field('field', $.identifier),
+      field('operator', choice('=', '!=', '>', '<', '>=', '<=')),
+      field('value', $._value),
+    ),
+
+    in_expression: $ => seq(
+      field('field', $.identifier),
+      'in',
+      '(',
+      field('value', $._value),
+      repeat(seq(',', field('value', $._value))),
+      ')',
+    ),
+
+    contains_expression: $ => seq(
+      field('field', $.identifier),
+      'contains',
+      field('value', $._value),
+    ),
+
+    // and lebih kuat daripada or; not paling kuat
+    and_expression: $ => prec.left(2, seq(
+      field('left', $._expr), 'and', field('right', $._expr),
+    )),
+
+    or_expression: $ => prec.left(1, seq(
+      field('left', $._expr), 'or', field('right', $._expr),
+    )),
+
+    not_expression: $ => prec(3, seq(
+      'not', field('operand', $._expr),
+    )),
+
+    parenthesized: $ => seq('(', $._expr, ')'),
+
+    _value: $ => choice($.string, $.number, $.boolean),
+
+    boolean: $ => choice('true', 'false'),
+
+    identifier: $ => /[a-zA-Z_][a-zA-Z0-9_.]*/,
+    number: $ => /\d+(\.\d+)?/,
+    string: $ => /"[^"]*"/,
+  },
 });
