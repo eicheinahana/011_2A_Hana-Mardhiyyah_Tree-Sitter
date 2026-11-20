@@ -25,7 +25,11 @@ Folder `venv/`, `.venv/`, `.git/`, `node_modules/`, dan `__pycache__/` dilewati.
 
 ## Contoh output
 
-(TEMPEL isi output_uji.txt)
+[PANJANG] uji/panjang.py:1: fungsi fungsi_panjang = 37 baris
+[ERROR] uji/rusak.py:1: syntax error (ERROR)
+[TODO]  uji/todo.py:1: # TODO: tambahkan validasi input
+[TODO]  uji/todo.py:3: # FIXME: belum menangani x negatif
+-- selesai: 3 file diperiksa
 
 ## Catatan
 
