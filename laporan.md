@@ -118,3 +118,58 @@ Tugas 1 (output_t1.txt) untuk nama node dan label field.
 
 Catatan penggunaan AI: kode ditulis oleh AI (Claude). Verifikasi dilakukan dengan
 mencocokkan output `kecil.py` dengan output di materi.
+
+
+## Tugas 3 - Query pertama
+
+`q.py` membaca file kode dari `argv[1]` dan file pola `.scm` dari `argv[2]`, lalu
+mencetak hasil `QueryCursor.matches` beserta nomor baris, sehingga cukup mengedit
+file `.scm` tanpa mengubah kode Python. Tiga query yang dibuat:
+
+1. **Fungsi dan jumlah parameter** (`fungsi.scm`): menangkap `name` dan
+   `parameters` dalam satu pola, lalu jumlah parameter dihitung dari
+   `named_child_count` node `parameters`. Dipakai `matches`, bukan `captures`,
+   karena butuh pasangan nama dan parameter.
+2. **Pemanggilan print** (`print.scm`): `call` dengan `function` berupa
+   `identifier` yang dibatasi predikat `#eq? @fn "print"`.
+3. **Import** (`import.scm`): `import_statement` dan `import_from_statement`.
+   Nama node dilihat dulu dari pohon hasil `jelajah.py`
+   (`output_t3_pohon.txt`), tidak ditebak.
+
+Hasil dicocokkan dengan hitungan manual pada `contoh.py`: tiga fungsi (`tambah`
+2 parameter, `sapa` 1, `kali` 4 karena `self` ikut terhitung), dua pemanggilan
+`print` (baris 10 dan 19), dan dua import (`os` dan `pathlib`).
+
+Fungsi:
+```
+@nama[baris 5]='tambah'  @params[baris 5]='(a, b)'  jumlah_parameter=2
+@nama[baris 9]='sapa'  @params[baris 9]='(nama)'  jumlah_parameter=1
+@nama[baris 15]='kali'  @params[baris 15]='(self, a, b, c)'  jumlah_parameter=4
+-- total: 3 hasil
+
+```
+Print:
+```
+@fn[baris 10]='print'  @args[baris 10]='("halo", nama)'
+@fn[baris 19]='print'  @args[baris 19]='(tambah(1, 2))'
+-- total: 2 hasil
+
+```
+Import:
+```
+@modul[baris 1]='os'
+@modul[baris 2]='pathlib'
+-- total: 2 hasil
+
+```
+
+### Kendala dan solusi
+tidak ada kendala
+
+### Catatan penggunaan AI
+1. **Yang diminta:** menulis `q.py`, `contoh.py`, dan ketiga file query.
+2. **Kesalahan atau kekurangan AI yang ditemukan:** (PILIH yang benar-benar terjadi)
+   - Jumlah parameter `kali` ternyata 4 karena `self` ikut terhitung, sedangkan
+     hitungan manual awal 3; `named_child_count` tidak membedakan `self`.
+     Bukti: `output_t3_fungsi.txt`.
+3. **Pembuktian:** hasil query dicocokkan dengan hitungan manual pada `contoh.py`.
