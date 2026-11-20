@@ -1,0 +1,3 @@
+@fn[baris 10]='print'  @args[baris 10]='("halo", nama)'
+@fn[baris 19]='print'  @args[baris 19]='(tambah(1, 2))'
+-- total: 2 hasil

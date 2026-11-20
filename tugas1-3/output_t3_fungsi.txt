@@ -1,0 +1,4 @@
+@nama[baris 5]='tambah'  @params[baris 5]='(a, b)'  jumlah_parameter=2
+@nama[baris 9]='sapa'  @params[baris 9]='(nama)'  jumlah_parameter=1
+@nama[baris 15]='kali'  @params[baris 15]='(self, a, b, c)'  jumlah_parameter=4
+-- total: 3 hasil

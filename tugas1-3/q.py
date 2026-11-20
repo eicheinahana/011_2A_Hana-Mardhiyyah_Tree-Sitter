@@ -9,7 +9,17 @@ kode = open(sys.argv[1], "rb").read()
 pola = open(sys.argv[2]).read()
 tree = parser.parse(kode)
 
-hasil = QueryCursor(Query(PY, pola)).captures(tree.root_node)
-for nama, nodes in hasil.items():
-    for n in nodes:
-        print(f"@{nama}  baris {n.start_point[0] + 1}: {n.text.decode()}")
+jumlah = 0
+for _, cap in QueryCursor(Query(PY, pola)).matches(tree.root_node):
+    bagian = []
+    for nama in cap:
+        for n in cap[nama]:
+            teks = n.text.decode(errors="replace")
+            if len(teks) > 40:
+                teks = teks[:40] + "..."
+            bagian.append(f"@{nama}[baris {n.start_point[0] + 1}]={teks!r}")
+    if "params" in cap:
+        bagian.append(f"jumlah_parameter={cap['params'][0].named_child_count}")
+    print("  ".join(bagian))
+    jumlah += 1
+print(f"-- total: {jumlah} hasil")
