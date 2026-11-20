@@ -173,3 +173,62 @@ tidak ada kendala
      hitungan manual awal 3; `named_child_count` tidak membedakan `self`.
      Bukti: `output_t3_fungsi.txt`.
 3. **Pembuktian:** hasil query dicocokkan dengan hitungan manual pada `contoh.py`.
+
+## Tugas 4 - Grammar DSL filter
+
+Grammar `filter` dibuat untuk bahasa pencarian lanjutan seperti
+`status = "open" and (priority > 2 or owner = "budi")`. Yang didukung:
+perbandingan (`=`, `!=`, `>`, `<`, `>=`, `<=`), string, angka, boolean,
+`and`/`or`/`not`, kurung, `in`, dan `contains`.
+
+**Prioritas operator.** `not` (prec 3) lebih kuat dari `and` (prec.left 2), dan
+`and` lebih kuat dari `or` (prec.left 1). Karena itu `a = 1 or b = 2 and c = 3`
+dibaca sebagai `a = 1 or (b = 2 and c = 3)`.
+
+**`word: $ => $.identifier`** dipasang supaya kata kunci seperti `and`, `or`, dan
+`in` tidak terbaca sebagai identifier.
+
+**Field** diberikan pada child penting (`field`, `operator`, `value`, `left`,
+`right`, `operand`) agar pohon tidak bergantung pada urutan. Field `operator`
+tidak muncul di pohon tes karena isinya node anonim.
+
+**Tes.** Ada 8 kasus di `test/corpus/dasar.txt`: string, angka, boolean,
+prioritas `and`/`or`, kurung, `not`, `in` dengan tiga nilai
+(`in_expression`), dan `contains`.
+
+```
+  dasar:
+      1. ✓ [32mPerbandingan string[0m
+      2. ✓ [32mPerbandingan angka[0m
+      3. ✓ [32mNilai boolean[0m
+      4. ✓ [32mPrioritas and lebih kuat dari or[0m
+      5. ✓ [32mKurung mengubah pengelompokan[0m
+      6. ✓ [32mOperator not[0m
+      7. ✓ [32mOperator in dengan tiga nilai[0m
+      8. ✓ [32mOperator contains[0m
+
+Total parses: 8; successful parses: 8; failed parses: 0; success percentage: 100.00%; average speed: 4945 bytes/ms
+```
+
+### Kendala dan solusi
+- `tree-sitter generate` gagal ketika dijalankan dari root repo karena mencari
+  `grammar.js` di folder yang salah. Solusi: menjalankannya dari dalam
+  `tree-sitter-filter/`.
+
+### Catatan penggunaan AI
+1. **Yang diminta:** menulis `grammar.js` dan kasus uji corpus.
+2. **Kesalahan atau kekurangan AI yang ditemukan:** 
+    - **`grammar.js` ditulis dengan gaya CommonJS, padahal proyek memakai ES module.**
+      AI menulis `module.exports = grammar({ ... })`. Namun `package.json` hasil
+      `tree-sitter init` berisi `"type": "module"`, sehingga `tree-sitter generate`
+      gagal dengan pesan:
+      `ReferenceError: module is not defined in ES module scope`
+      dan `Failed to load grammar.js -- node process exited with status 1`.
+      - **Bukti:** pesan error di terminal saat menjalankan `tree-sitter generate`
+        pertama kali. Perintah `tree-sitter parse` setelahnya hanya menghasilkan
+        node `ERROR` karena parser belum berhasil dibuat.
+      - **Perbaikan:** mengganti baris pertama menjadi `export default grammar({`.
+      - **Verifikasi:** setelah diperbaiki, `tree-sitter generate` berhasil dan
+        `tree-sitter test` dapat dijalankan (hasilnya di
+        `tree-sitter-filter/hasil_test.txt`).
+3. **Pembuktian:** hasil `tree-sitter test` pada `hasil_test.txt`.
