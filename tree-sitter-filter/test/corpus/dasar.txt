@@ -1,0 +1,123 @@
+==================
+Perbandingan string
+==================
+
+status = "open"
+
+---
+
+(query
+  (comparison
+    field: (identifier)
+    value: (string)))
+
+==================
+Perbandingan angka
+==================
+
+priority >= 2
+
+---
+
+(query
+  (comparison
+    field: (identifier)
+    value: (number)))
+
+==================
+Nilai boolean
+==================
+
+archived = true
+
+---
+
+(query
+  (comparison
+    field: (identifier)
+    value: (boolean)))
+
+==================
+Prioritas and lebih kuat dari or
+==================
+
+a = 1 or b = 2 and c = 3
+
+---
+
+(query
+  (or_expression
+    left: (comparison
+      field: (identifier)
+      value: (number))
+    right: (and_expression
+      left: (comparison
+        field: (identifier)
+        value: (number))
+      right: (comparison
+        field: (identifier)
+        value: (number)))))
+
+==================
+Kurung mengubah pengelompokan
+==================
+
+(a = 1 or b = 2) and c = 3
+
+---
+
+(query
+  (and_expression
+    left: (parenthesized
+      (or_expression
+        left: (comparison
+          field: (identifier)
+          value: (number))
+        right: (comparison
+          field: (identifier)
+          value: (number))))
+    right: (comparison
+      field: (identifier)
+      value: (number))))
+
+==================
+Operator not
+==================
+
+not archived = true
+
+---
+
+(query
+  (not_expression
+    operand: (comparison
+      field: (identifier)
+      value: (boolean))))
+
+==================
+Operator in dengan tiga nilai
+==================
+
+status in ("open", "pending", "closed")
+
+---
+
+(query
+  (in_expression
+    field: (identifier)
+    value: (string)
+    value: (string)
+    value: (string)))
+
+==================
+Operator contains
+==================
+
+title contains "invoice"
+
+---
+
+(query
+  (contains_expression
+    field: (identifier)
+    value: (string)))

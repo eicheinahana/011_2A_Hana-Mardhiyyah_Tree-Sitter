@@ -1,0 +1,12 @@
+  dasar:
+      1. ✓ [32mPerbandingan string[0m
+      2. ✓ [32mPerbandingan angka[0m
+      3. ✓ [32mNilai boolean[0m
+      4. ✓ [32mPrioritas and lebih kuat dari or[0m
+      5. ✓ [32mKurung mengubah pengelompokan[0m
+      6. ✓ [32mOperator not[0m
+      7. ✓ [32mOperator in dengan tiga nilai[0m
+      8. ✓ [32mOperator contains[0m
+
+Total parses: 8; successful parses: 8; failed parses: 0; success percentage: 100.00%; average speed: 4945 bytes/ms
+
