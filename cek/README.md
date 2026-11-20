@@ -1,19 +1,33 @@
-# cek.py - pendeteksi TODO, fungsi panjang, dan syntax error
+# cek.py - pemeriksa file Python berbasis tree-sitter
+
+Melaporkan tiga hal pada semua file `*.py` di sebuah folder:
+
+1. komentar `TODO` / `FIXME`,
+2. fungsi dengan panjang lebih dari 30 baris,
+3. file yang mengandung syntax error (beserta baris pertama yang bermasalah).
 
 ## Cara memasang dependensi
 
-(isi: perintah pip install)
+```bash
+python3 -m venv ~/venv-plp
+source ~/venv-plp/bin/activate
+pip install tree-sitter tree-sitter-python
+```
 
 ## Cara menjalankan
 
-(isi: contoh perintah `python cek.py <folder>`)
+```bash
+python cek.py <folder>
+# contoh: python cek.py uji
+```
+
+Folder `venv/`, `.venv/`, `.git/`, `node_modules/`, dan `__pycache__/` dilewati.
 
 ## Contoh output
 
-```
-(tempel output asli di sini)
-```
+(TEMPEL isi output_uji.txt)
 
 ## Catatan
 
 - Semua fungsi dihitung, termasuk method di dalam kelas dan fungsi bersarang.
+- Panjang fungsi dihitung dari baris `def` sampai baris terakhir badannya.
